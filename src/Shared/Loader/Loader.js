@@ -3,7 +3,7 @@ import './Loader.css'
 
 const Loader = () => {
     return (
-        <div className=''>
+        <div className='flex justify-center'>
             <span className="loader"></span>
         </div>
     );

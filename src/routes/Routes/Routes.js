@@ -4,6 +4,7 @@ import CategoryItems from "../../Pages/CategoryItems/CategoryItems";
 import Home from "../../Pages/Home/Home/Home";
 import Login from "../../Pages/Login/Login";
 import Register from "../../Pages/Register/Register";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/categories/:category',
-                element: <CategoryItems />,
+                element: <PrivateRoute><CategoryItems /></PrivateRoute>,
                 loader: ({params}) => fetch(`http://localhost:5000/phones/categories/${params.category}`)
             },
             {

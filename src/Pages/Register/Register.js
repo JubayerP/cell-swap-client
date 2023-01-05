@@ -1,6 +1,6 @@
 import { GoogleAuthProvider } from 'firebase/auth';
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 import Loader from '../../Shared/Loader/Loader';
 
@@ -14,7 +14,10 @@ const Register = () => {
 
     const { createUser, updateUser, providerLogin, loading, setLoading, gLoading, setGloading } = useContext(AuthContext);
     const googleProvider = new GoogleAuthProvider();
+    const navigate = useNavigate()
+    const location = useLocation()
 
+    const from = location.state?.from?.pathname || '/'
 
     const handleName = e => {
         setUserInfo({ ...userInfo, name: e.target.value })
@@ -51,10 +54,30 @@ const Register = () => {
                 // Create User Now
                 createUser(userInfo.email, userInfo.password)
                     .then(result => {
-                        const user = result.user;
-                        console.log(user);
+                        const loggedUser = result.user;
                         updateUser(userInfo.name, photo)
-                            .then(() => { }).catch(err => { console.log(err.message); setLoading(false) })
+                            .then(() => {
+                                // navigate(from, {replace: true})
+
+                                const user = { name: loggedUser.displayName, email: loggedUser.email, role: userInfo.role }
+
+                                fetch(`http://localhost:5000/users/${loggedUser?.email}`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'content-type': 'application/json'
+                                    },
+                                    body: JSON.stringify(user)
+                                })
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        console.log(data);
+                                        navigate(from, { replace: true })
+                                    })
+
+                            }).catch(err => {
+                                console.log(err.message);
+                                setLoading(false)
+                            })
                     })
                     .catch(err => {
                         console.log(err.message)
@@ -68,8 +91,24 @@ const Register = () => {
     const handleGoogleLogin = () => {
         providerLogin(googleProvider)
             .then(result => {
-                const user = result.user;
+                const loggedUser = result.user;
+                // navigate(from, {replace: true})
 
+
+                const user = { name: loggedUser.displayName, email: loggedUser.email, role: 'Buyer' }
+
+                fetch(`http://localhost:5000/users/${loggedUser?.email}`, {
+                    method: 'PUT',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        navigate(from, { replace: true })
+                    })
             })
             .catch(err => {
                 setGloading(false);
@@ -94,7 +133,7 @@ const Register = () => {
                         <option value="Seller">Seller</option>
                         <option value="Buyer">Buyer</option>
                     </select>
-                    <button className={`${loading ? 'bg-white' : 'bg-black'} rounded-full text-white font-semibold text-xl -tracking-tight py-3 `}>{loading ? <Loader /> :'Create'}</button>
+                    <button className={`${loading ? 'bg-white' : 'bg-black'} rounded-full text-white font-semibold text-xl -tracking-tight py-3 `}>{loading ? <Loader /> : 'Create'}</button>
                 </div>
                 <p className='text-base text-center lg:mt-2 md:mt-2 my-4'>Already have an account? <Link to='/login' className='underline'>Login</Link></p>
             </form>

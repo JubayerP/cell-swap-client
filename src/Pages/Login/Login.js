@@ -1,7 +1,7 @@
 import { GoogleAuthProvider } from 'firebase/auth';
 import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
 import Loader from '../../Shared/Loader/Loader';
 
@@ -10,11 +10,17 @@ const Login = () => {
     const { loading, setLoading, gLoading, setGloading, signIn, providerLogin } = useContext(AuthContext)
     const googleProvider = new GoogleAuthProvider();
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/';
+
     const handleLogin = data => {
         signIn(data.email, data.password)
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                navigate(from, { replace: true })
             })
             .catch(err => {
                 console.log(err.message);
@@ -25,7 +31,24 @@ const Login = () => {
     const handleGoogleLogin = () => {
         providerLogin(googleProvider)
             .then(result => {
+                const loggedUser = result.user;
+                // navigate(from, {replace: true})
 
+
+                const user = { name: loggedUser.displayName, email: loggedUser.email, role: 'Buyer' }
+
+                fetch(`http://localhost:5000/users/${loggedUser?.email}`, {
+                    method: 'PUT',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        navigate(from, { replace: true })
+                    })
             })
             .catch(err => {
                 console.log(err.message);
@@ -41,13 +64,13 @@ const Login = () => {
                 <div className='grid grid-cols-1 gap-4'>
                     <input {...register('email', { required: true })} type="email" placeholder='Email' className='outline-none border border-gray-500 focus:border-black pl-4 py-3 rounded-full' />
                     <input {...register('password', { required: true })} type="password" placeholder='Password' className='outline-none border border-gray-500 focus:border-black pl-4 py-3 rounded-full' />
-                    <button className={`${loading ? 'bg-white' : 'bg-black'} rounded-full text-white font-semibold text-xl -tracking-tight py-3`}>{loading ? <Loader/> :'Log In'}</button>
+                    <button className={`${loading ? 'bg-white' : 'bg-black'} rounded-full text-white font-semibold text-xl -tracking-tight py-3`}>{loading ? <Loader /> : 'Log In'}</button>
                 </div>
                 <p className='text-base text-center my-2'>Don't have an account? <Link to='/register' className='underline'>Create</Link></p>
             </form>
 
             <div className='lg:max-w-md md:max-w-md max-w-sm mx-auto mt-2.4'>
-                <button onClick={handleGoogleLogin} className='rounded-full text-black border border-black font-semibold text-xl -tracking-tight py-3 w-full'>{gLoading ? <Loader /> :'Login With Google'}</button>
+                <button onClick={handleGoogleLogin} className='rounded-full text-black border border-black font-semibold text-xl -tracking-tight py-3 w-full'>{gLoading ? <Loader /> : 'Login With Google'}</button>
             </div>
         </div>
     );

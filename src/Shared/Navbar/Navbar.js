@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthProvider';
+import MenuOptions from './MenuOptions';
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
+    const { user } = useContext(AuthContext);
 
     const menuItems = <>
         <Link className='md:p-4 py-2 block' to='/home'>Home</Link>
-        <Link className='md:p-4 py-2 block' to='/'>Our Portfolio</Link>
-        <Link className='md:p-4 py-2 block' to='/'>Our Team</Link>
-        <Link className='md:p-4 py-2 block' to='/dashboard/myorders'>Dashboard</Link>
-        <Link className='md:p-4 py-2 block' to='/login'>Login</Link>
+        {user?.uid ?
+            <MenuOptions />
+            :
+            <Link className='md:p-4 py-2 block' to='/login'>Login</Link>
+        }
     </>
     return (
         <div className={`flex flex-wrap w-full justify-between items-center px-10 py-3`}>
