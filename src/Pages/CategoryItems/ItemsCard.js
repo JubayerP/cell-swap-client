@@ -4,7 +4,6 @@ import { useNavigation } from 'react-router-dom';
 const ItemsCard = ({ phone }) => {
     const { name, image, location, resalePrice, originalPrice, used } = phone;
     const navigation = useNavigation();
-    console.log(navigation);
     return (
         <div className='mx-auto p-6 max-w-sm w-full rounded-xl shadow-xl'>
             <div className='max-w-sm overflow-hidden'>
