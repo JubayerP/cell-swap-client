@@ -17,7 +17,7 @@ const Categories = () => {
             <div className='grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1'>
                 {
                     categories.map(c =>
-                        <div className='mx-auto p-2 rounded-md cursor-pointer shadow-md border border-black'>
+                        <div key={c._id} className='mx-auto p-2 rounded-md cursor-pointer shadow-md border border-black'>
                             <Link to={`/categories/${c.category}`}>
                                 <img className='w-28 rounded-md mx-auto mb-2' src={c.categoryImage} alt="" />
                                 <h3 className='text-xl font-semibold '>{c.categoryName}</h3>
