@@ -20,7 +20,7 @@ const MyProducts = () => {
 
 
     const handleRunAds = phone => {
-        const url = `http://localhost:5000/ads?email=${phone?.email}`;
+        const url = `http://localhost:5000/ads?id=${phone?._id}`;
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -30,9 +30,9 @@ const MyProducts = () => {
         })
             .then(res => res.json())
             .then(data => {
-            console.log(data)
-        })
-    }
+                console.log(data)
+            })
+    };
 
     if (isLoading) {
         return <Loader />
