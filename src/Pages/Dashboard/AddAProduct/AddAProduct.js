@@ -24,7 +24,7 @@ const AddAProduct = () => {
             .then(res => res.json())
             .then(data => {
                 const photo = data.data.display_url;
-                const phone = { ...phoneData, image: photo}
+                const phone = { ...phoneData, image: photo, date: new Date().toISOString().slice(0, 10)}
 
                 fetch('http://localhost:5000/phones', {
                     method: 'POST',
