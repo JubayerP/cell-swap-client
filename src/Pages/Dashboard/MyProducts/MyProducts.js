@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useContext } from 'react';
+import { toast } from 'react-hot-toast';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import Loader from '../../../Shared/Loader/Loader';
 
@@ -30,7 +31,9 @@ const MyProducts = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                if (data.upsertedCount > 0) {
+                    toast.success('Ads Campaign Running!')
+                }
             })
     };
 
@@ -41,7 +44,10 @@ const MyProducts = () => {
 
     return (
         <div>
-            <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
+            {myPhones.length === 0 ? 
+                <h2 className="mb-4 text-4xl font-semibold leading-tight text-gray-800 text-center">You Won't Have Any Product Yet!</h2>
+                :
+                <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
                 <h2 className="mb-4 text-2xl font-semibold leading-tight text-gray-800">My Products</h2>
                 <div className="overflow-x-auto">
                     <table className="min-w-full text-xs">
@@ -99,7 +105,7 @@ const MyProducts = () => {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div>}
         </div>
     );
 };

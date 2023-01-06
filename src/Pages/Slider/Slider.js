@@ -7,7 +7,7 @@ import slider3 from '../../assets/slider/slider-3.jpeg'
 
 const Slider = () => {
     return (
-        <div>
+        <div className=''>
             <AwesomeSlider>
                 <div data-src={slider1}>
                     
