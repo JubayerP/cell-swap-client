@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
             {
                 path: '/categories/:category',
                 element: <PrivateRoute><CategoryItems /></PrivateRoute>,
-                loader: ({params}) => fetch(`http://localhost:5000/phones/categories/${params.category}`)
+                loader: ({ params }) => fetch(`http://localhost:5000/phones/categories/${params.category}`)
             },
             {
                 path: '/register',

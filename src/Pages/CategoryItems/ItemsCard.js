@@ -1,9 +1,7 @@
 import React from 'react';
-import { useNavigation } from 'react-router-dom';
 
-const ItemsCard = ({ phone }) => {
+const ItemsCard = ({ phone, openModal, setBookingProduct }) => {
     const { name, image, location, resalePrice, originalPrice, used } = phone;
-    const navigation = useNavigation();
     return (
         <div className='mx-auto p-6 max-w-sm w-full rounded-xl shadow-xl'>
             <div className='max-w-sm overflow-hidden'>
@@ -16,7 +14,7 @@ const ItemsCard = ({ phone }) => {
                 <p>Resale Price: <span className='text-gray-800 font-semibold'>${resalePrice}</span></p>
                 <p>Used: <span className='text-gray-800 font-semibold'>{used}</span></p>
             </div>
-            <button className='bg-black px-8 py-3 text-white rounded'>Book Now</button>
+            <button onClick={() => { openModal(); setBookingProduct(phone)}} className='bg-black px-8 py-3 text-white rounded cursor-pointer'>Book Now</button>
         </div>
     );
 };
