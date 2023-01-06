@@ -18,10 +18,26 @@ const MyProducts = () => {
         }
     })
 
+
+    const handleRunAds = phone => {
+        const url = `http://localhost:5000/ads?email=${phone?.email}`;
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(phone)
+        })
+            .then(res => res.json())
+            .then(data => {
+            console.log(data)
+        })
+    }
+
     if (isLoading) {
         return <Loader />
     }
-    console.log(myPhones);
+
 
     return (
         <div>
@@ -38,28 +54,48 @@ const MyProducts = () => {
                         <thead className="dark:bg-gray-700">
                             <tr className="text-left">
                                 <th className="p-3">No</th>
+                                <th className="p-3">Image</th>
                                 <th className="p-3">Product Name</th>
+                                <th className="p-3">Price</th>
+                                <th className="p-3">Location</th>
+                                <th className="p-3">Date Added</th>
                                 <th className="p-3">Advertise</th>
+                                <th className="p-3">Status</th>
                                 <th className="p-3">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
+                            {
+                                myPhones.map((phone, idx) => <tr key={phone._id} className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
                                 <td className="p-3">
-                                    <p>97412378923</p>
+                                        <p>{ idx + 1}</p>
                                 </td>
                                 <td className="p-3">
-                                    <p>Microsoft Corporation</p>
+                                        <img className='w-10 rounded-md' src={phone.image} alt="" />
                                 </td>
                                 <td className="p-3">
-                                    <p>14 Jan 2022</p>
-                                    <p className="dark:text-gray-400">Friday</p>
+                                        <p>{phone.name}</p>
                                 </td>
                                 <td className="p-3">
-                                    <p>01 Feb 2022</p>
-                                    <p className="dark:text-gray-400">Tuesday</p>
+                                        <p>${phone.resalePrice}</p>
                                 </td>
-                            </tr>
+                                <td className="p-3">
+                                        <p>{phone.location}</p>
+                                </td>
+                                <td className="p-3">
+                                        <p>{phone.date}</p>
+                                </td>
+                                <td className="p-3">
+                                    <button onClick={()=> handleRunAds(phone)} className='bg-white text-gray-800 py-1 px-2 rounded-xl hover:bg-gray-200'>Run Ads</button>
+                                </td>
+                                <td className="p-3">
+                                    <span className='bg-white text-gray-800 py-1 px-2 rounded-xl hover:bg-gray-200'>Available</span>
+                                </td>
+                                <td className="p-3">
+                                <button className='bg-red-600 text-white py-1 px-2 rounded-xl hover:bg-red-700'>Delete</button>
+                                </td>
+                            </tr>)
+                            }
                         </tbody>
                     </table>
                 </div>

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthProvider';
 import Loader from '../../../Shared/Loader/Loader';
 
@@ -8,6 +9,7 @@ const AddAProduct = () => {
     const { register, handleSubmit } = useForm()
     const { user } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate()
 
     const handleBookingPhone = data => {
         const phoneData = { ...data, sellerName: user?.displayName, email: user?.email };
@@ -38,6 +40,7 @@ const AddAProduct = () => {
                         if (data.acknowledged) {
                             toast.success('your phone successfully added!')
                             setLoading(false);
+                            navigate('/dashboard/myproducts')
                         }
                     })
             })
