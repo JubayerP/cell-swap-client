@@ -1,8 +1,36 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Fragment, useContext } from 'react'
+import { AuthContext } from '../../contexts/AuthProvider';
+import { MdOutlineClose } from 'react-icons/md';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 
 export default function BookingModal({ isOpen, closeModal, bookingProduct, setBookingProduct }) {
-    console.log(bookingProduct)
+    const { user } = useContext(AuthContext);
+    const { name, resalePrice } = bookingProduct;
+
+    const { register, handleSubmit } = useForm()
+    
+    const handleBookingPhone = data => {
+        const name = data.productName;
+        fetch('http://localhost:5000/bookings', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+            if(data.acknowledged){
+                setBookingProduct(null)
+                toast.success(`${name} is booked successfully!`)
+            }
+        })
+    }
+
+
+
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -20,7 +48,7 @@ export default function BookingModal({ isOpen, closeModal, bookingProduct, setBo
                     </Transition.Child>
 
                     <div className="fixed inset-0 overflow-y-auto">
-                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                        <div className="flex min-h-full items-center justify-center p-4 text-center relative">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -31,21 +59,24 @@ export default function BookingModal({ isOpen, closeModal, bookingProduct, setBo
                                 leaveTo="opacity-0 scale-95"
                             >
                                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                    <form>
-                                        <input type="text" />
-                                        <input type="email" />
-                                        <input type="text" />
-                                        <input type="text" />
-                                    </form>
-                                    <div className="mt-4">
-                                        <button
-                                            type="button"
-                                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                            onClick={() => { closeModal();  setBookingProduct(null)}}
-                                        >
-                                            Got it, thanks!
-                                        </button>
+                                    <div onClick={closeModal} className='border w-8 h-8 rounded-full flex justify-center items-center absolute right-2 top-2 cursor-pointer border-gray-800'>
+                                    <MdOutlineClose size={24}/>
                                     </div>
+                                    <form onSubmit={handleSubmit(handleBookingPhone)} className='grid grid-cols-1 gap-4 mt-5'>
+                                        <input {...register('buyerName', {required: true})} type="text" defaultValue={user?.displayName} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200'/>
+                                        <input {...register('email', {required: true})} type="email" defaultValue={user?.email} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200'/>
+                                        <input {...register('productName', {required: true})} type="text" defaultValue={name} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200'/>
+                                        <input {...register('price', {required: true})} type="text" defaultValue={`$${resalePrice}`} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200' />
+                                        
+                                        <input {...register('phone', {required: true})} type="text" placeholder='Phone Number' className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg' />
+                                        <input {...register('location', {required: true})} type="text" placeholder='Meeting Location' className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg'/>
+                                        <button
+                                            type="submit"
+                                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                        >
+                                            Book
+                                        </button>
+                                    </form>
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>

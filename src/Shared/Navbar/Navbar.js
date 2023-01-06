@@ -8,9 +8,12 @@ const Navbar = () => {
     const { user } = useContext(AuthContext);
 
     const menuItems = <>
-        <Link className='md:p-4 py-2 block' to='/home'>Home</Link>
+        {/* <Link className='md:p-4 py-2 block' to='/home'>Home</Link> */}
         {user?.uid ?
-            <MenuOptions />
+            <>
+                <Link className='md:p-4 py-2 block' to='/dashboard'>Dashboard</Link>
+                <MenuOptions />
+            </>
             :
             <Link className='md:p-4 py-2 block' to='/login'>Login</Link>
         }
