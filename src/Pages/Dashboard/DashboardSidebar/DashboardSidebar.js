@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../contexts/AuthProvider';
+import useSeller from '../../../hooks/useSeller';
 import './DashboardSidebar.css';
 
 const DashboardSidebar = () => {
+    const { user } = useContext(AuthContext);
+    const [isSeller, sellerLoading] = useSeller(user?.email);
     return (
         <div className="relative min-h-screen md:flex" data-dev-hint="container">
             <input type="checkbox" id="menu-open" className="hidden" />
@@ -30,9 +34,11 @@ const DashboardSidebar = () => {
 
             <aside id="sidebar" className="text-gray-800 md:w-64 w-44 space-y-6 pt-6 px-0 absolute inset-y-0 left-0 transform md:relative md:translate-x-0 transition duration-200 ease-in-out  md:flex md:flex-col md:justify-between overflow-y-auto" data-dev-hint="sidebar; px-0 for frameless; px-2 for visually inset the navigation">
                 <div className="flex flex-col space-y-6" data-dev-hint="optional div for having an extra footer navigation">
-                    <Link to='/dashboard/addproduct' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>Add A Product</Link>
-                    <Link to='/dashboard/myproducts' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Products</Link>
-                    <Link to='/dashboard/mybuyers' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Buyers</Link>
+                    {isSeller && <>
+                        <Link to='/dashboard/addproduct' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>Add A Product</Link>
+                        <Link to='/dashboard/myproducts' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Products</Link>
+                        <Link to='/dashboard/mybuyers' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Buyers</Link>
+                    </>}
                 </div>
             </aside>
 
