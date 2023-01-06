@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthProvider';
+import useBuyer from '../../../hooks/useBuyer';
 import useSeller from '../../../hooks/useSeller';
 import './DashboardSidebar.css';
 
 const DashboardSidebar = () => {
     const { user } = useContext(AuthContext);
-    const [isSeller, sellerLoading] = useSeller(user?.email);
+    const [isSeller] = useSeller(user?.email);
+    const [isBuyer] = useBuyer(user?.email)
     return (
         <div className="relative min-h-screen md:flex" data-dev-hint="container">
             <input type="checkbox" id="menu-open" className="hidden" />
@@ -18,9 +20,9 @@ const DashboardSidebar = () => {
             </label>
 
             <header className="bg-gray-600 text-gray-100 flex justify-between md:hidden" data-dev-hint="mobile menu bar">
-                {/* <a href="#" className="block p-4 text-white font-bold whitespace-nowrap truncate">
+                <a href="#" className="block p-4 text-white font-bold whitespace-nowrap truncate">
                     Your App is cool
-                </a> */}
+                </a>
 
                 <label for="menu-open" id="mobile-menu-button" className="m-2 p-2 focus:outline-none hover:text-white hover:bg-gray-700 rounded-md">
                     <svg id="menu-open-icon" className="h-6 w-6 transition duration-200 ease-in-out" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -32,23 +34,25 @@ const DashboardSidebar = () => {
                 </label>
             </header>
 
-            <aside id="sidebar" className="text-gray-800 md:w-64 w-44 space-y-6 pt-6 px-0 absolute inset-y-0 left-0 transform md:relative md:translate-x-0 transition duration-200 ease-in-out  md:flex md:flex-col md:justify-between overflow-y-auto" data-dev-hint="sidebar; px-0 for frameless; px-2 for visually inset the navigation">
+            <aside id="sidebar" className="text-gray-800 bg-white md:w-64 w-44 space-y-6 pt-6 px-0 absolute inset-y-0 left-0 transform md:relative md:translate-x-0 transition duration-200 ease-in-out  md:flex md:flex-col md:justify-between overflow-y-auto" data-dev-hint="sidebar; px-0 for frameless; px-2 for visually inset the navigation">
                 <div className="flex flex-col space-y-6" data-dev-hint="optional div for having an extra footer navigation">
                     {isSeller && <>
                         <Link to='/dashboard/addproduct' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>Add A Product</Link>
                         <Link to='/dashboard/myproducts' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Products</Link>
                         <Link to='/dashboard/mybuyers' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Buyers</Link>
-                    </>}
+                    </>
+                    }
+                    {isBuyer &&
+                        <>
+                        <Link to='/dashboard/myorders' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Orders</Link>
+                        </>
+                    }
                 </div>
             </aside>
 
             <main id="content" className="flex-1 p-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
-                    {/* <!-- Replace with your content --> */}
-                    <div className="px-4 py-6 sm:px-0">
-                        <div className="border-4 border-dashed border-gray-200 rounded-lg h-96"></div>
-                    </div>
-                    {/* <!-- /End replace --> */}
+                    <Outlet />
                 </div>
             </main>
         </div>

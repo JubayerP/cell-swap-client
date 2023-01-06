@@ -65,7 +65,7 @@ export default function BookingModal({ isOpen, closeModal, bookingProduct, setBo
                                     <form onSubmit={handleSubmit(handleBookingPhone)} className='grid grid-cols-1 gap-4 mt-5'>
                                         <input {...register('buyerName', {required: true})} type="text" defaultValue={user?.displayName} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200'/>
                                         <input {...register('email', {required: true})} type="email" defaultValue={user?.email} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200'/>
-                                        <input {...register('productName', {required: true})} type="text" defaultValue={name} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200'/>
+                                        <input {...register('productName', {required: true})} type="text" defaultValue={bookingProduct.name} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200'/>
                                         <input {...register('price', {required: true})} type="text" defaultValue={`$${resalePrice}`} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200' />
                                         
                                         <input {...register('phone', {required: true})} type="text" placeholder='Phone Number' className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg' />
