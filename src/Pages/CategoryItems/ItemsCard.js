@@ -1,8 +1,11 @@
 import React from 'react';
+import { FaCartArrowDown } from 'react-icons/fa';
+import { MdOutlineReportGmailerrorred } from 'react-icons/md';
+import { TbJewishStar } from 'react-icons/tb';
 
 const ItemsCard = ({ phone, openModal, setBookingProduct }) => {
     const { name, image, location, resalePrice, originalPrice, used, date, sellerName } = phone;
-    
+
     return (
         <div className='mx-auto p-6 max-w-sm w-full rounded-xl shadow-xl'>
             <div className='overflow-hidden'>
@@ -18,7 +21,12 @@ const ItemsCard = ({ phone, openModal, setBookingProduct }) => {
                     <p>Added on: <span className='text-gray-800 font-semibold'>{date ? date : ''}</span></p>
                     <p>Seller: <span className='text-gray-800 font-semibold'>{sellerName}</span></p>
                 </div>
-                <button onClick={() => { openModal(); setBookingProduct(phone) }} className='bg-black px-8 py-3 text-white rounded cursor-pointer'>Book Now</button>
+
+                <div className='space-y-3'>
+                    <button onClick={() => { openModal(); setBookingProduct(phone) }} className='bg-black px-4 py-2 text-white rounded cursor-pointer flex justify-center items-center space-x-2 w-full'><span>Book Now</span> <FaCartArrowDown /></button>
+                    <button className='bg-yellow-700 px-4 py-2 text-white rounded cursor-pointer flex justify-center items-center space-x-2 w-full'><span>Add To Wishlist</span> < TbJewishStar/></button>
+                    <button className='bg-red-600 px-4 py-2 text-white rounded cursor-pointer flex justify-center items-center space-x-2 w-full'><span>Report To Admin</span> <MdOutlineReportGmailerrorred /></button>
+                </div>
             </div>
         </div>
     );
