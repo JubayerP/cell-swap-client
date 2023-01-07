@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
+import useTitle from '../../../hooks/useTitle';
 import Loader from '../../../Shared/Loader/Loader';
 
 const AllBuyer = () => {
+    useTitle('All Buyer')
     const {data: allbuyers=[], isLoading, refetch} = useQuery({
         queryKey: ['allsellers'],
         queryFn: async () => {

@@ -2,6 +2,7 @@ import React from 'react';
 
 const ItemsCard = ({ phone, openModal, setBookingProduct }) => {
     const { name, image, location, resalePrice, originalPrice, used, date, sellerName } = phone;
+    
     return (
         <div className='mx-auto p-6 max-w-sm w-full rounded-xl shadow-xl'>
             <div className='overflow-hidden'>

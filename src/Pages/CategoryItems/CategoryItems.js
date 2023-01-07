@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import useTitle from '../../hooks/useTitle';
 import BookingModal from '../../Shared/BookingModal/BookingModal';
 import ItemsCard from './ItemsCard';
 
@@ -7,6 +8,7 @@ const CategoryItems = () => {
     const phones = useLoaderData();
     let [isOpen, setIsOpen] = useState(false);
     const [bookingProduct, setBookingProduct] = useState(null)
+    useTitle(`Categories`)
 
     function closeModal() {
         setIsOpen(false)
