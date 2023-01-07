@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/AuthProvider';
+import useAdmin from '../../../hooks/useAdmin';
 import useBuyer from '../../../hooks/useBuyer';
 import useSeller from '../../../hooks/useSeller';
 import './DashboardSidebar.css';
@@ -9,6 +10,7 @@ const DashboardSidebar = () => {
     const { user } = useContext(AuthContext);
     const [isSeller] = useSeller(user?.email);
     const [isBuyer] = useBuyer(user?.email)
+    const [isAdmin] = useAdmin(user?.email);
     return (
         <div className="relative min-h-screen md:flex" data-dev-hint="container">
             <input type="checkbox" id="menu-open" className="hidden" />
@@ -45,6 +47,13 @@ const DashboardSidebar = () => {
                     {isBuyer &&
                         <>
                         <Link to='/dashboard/myorders' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Orders</Link>
+                        </>
+                    }
+                    {isAdmin &&
+                        <>
+                        <Link to='/dashboard/allseller' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>All Sellers</Link>
+                        <Link to='/dashboard/allbuyer' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>All Buyers</Link>
+                        <Link to='/dashboard/myorders' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>Reported Items</Link>
                         </>
                     }
                 </div>
