@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import useTitle from '../../hooks/useTitle';
 import BookingModal from '../../Shared/BookingModal/BookingModal';
+import ScrollToTop from '../../Shared/ScrollToTop/ScrollToTop';
 import ItemsCard from './ItemsCard';
 
 const CategoryItems = () => {
@@ -9,6 +10,7 @@ const CategoryItems = () => {
     let [isOpen, setIsOpen] = useState(false);
     const [bookingProduct, setBookingProduct] = useState(null)
     useTitle(`Categories`)
+    ScrollToTop();
 
     function closeModal() {
         setIsOpen(false)
