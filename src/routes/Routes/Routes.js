@@ -6,6 +6,7 @@ import AddAProduct from "../../Pages/Dashboard/AddAProduct/AddAProduct";
 import AllBuyer from "../../Pages/Dashboard/AllBuyer/AllBuyer";
 import AllSeller from "../../Pages/Dashboard/AllSeller/AllSeller";
 import MyProducts from "../../Pages/Dashboard/MyProducts/MyProducts";
+import ErrorPage from "../../Pages/ErrorPage/ErrorPage";
 import Home from "../../Pages/Home/Home/Home";
 import Login from "../../Pages/Login/Login";
 import Register from "../../Pages/Register/Register";
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <Login />
+            },
+            {
+                path: '*',
+                element: <ErrorPage />
             }
         ]
     },
@@ -56,6 +61,10 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/allbuyer',
                 element: <AdminRoute><AllBuyer /></AdminRoute>
+            },
+            {
+                path: '*',
+                element: <ErrorPage />
             }
         ]
     }
