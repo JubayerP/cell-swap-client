@@ -47,6 +47,7 @@ const DashboardSidebar = () => {
                     {isBuyer &&
                         <>
                         <Link to='/dashboard/myorders' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Orders</Link>
+                        <Link to='/dashboard/wishlist' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Wishlist</Link>
                         </>
                     }
                     {isAdmin &&

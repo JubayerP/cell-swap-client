@@ -12,18 +12,19 @@ const ItemsCard = ({ phone, openModal, setBookingProduct }) => {
 
 
     const handleWishlist = phone => {
-        fetch(`http://localhost:5000/wishlist?id=${phone._id}`,{
-            method: 'POST',
+        fetch(`http://localhost:5000/wishlist?id=${phone._id}`, {
+            method: 'PUT',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({email: user?.email})
+            body: JSON.stringify({ email: user?.email })
         })
             .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            toast.success('Added to your wishlist!')
-        })
+            .then(data => {
+                if (data.upsertedCount) {
+                    toast.success('Added to your wishlist!')
+                }
+            })
     }
 
     return (
@@ -44,7 +45,7 @@ const ItemsCard = ({ phone, openModal, setBookingProduct }) => {
 
                 <div className='space-y-3'>
                     <button onClick={() => { openModal(); setBookingProduct(phone) }} className='bg-black px-4 py-2 text-white rounded cursor-pointer flex justify-center items-center space-x-2 w-full'><span>Book Now</span> <FaCartArrowDown /></button>
-                    <button onClick={()=>handleWishlist(phone)} className='bg-yellow-700 px-4 py-2 text-white rounded cursor-pointer flex justify-center items-center space-x-2 w-full'><span>Add To Wishlist</span> < TbJewishStar/></button>
+                    <button onClick={() => handleWishlist(phone)} className='bg-yellow-700 px-4 py-2 text-white rounded cursor-pointer flex justify-center items-center space-x-2 w-full'><span>Add To Wishlist</span> < TbJewishStar /></button>
                     <button className='bg-red-600 px-4 py-2 text-white rounded cursor-pointer flex justify-center items-center space-x-2 w-full'><span>Report To Admin</span> <MdOutlineReportGmailerrorred /></button>
                 </div>
             </div>

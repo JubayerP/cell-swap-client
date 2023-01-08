@@ -59,7 +59,7 @@ const Register = () => {
                             .then(() => {
                                 // navigate(from, {replace: true})
 
-                                const user = { name: loggedUser.displayName, email: loggedUser.email, role: userInfo.role }
+                                const user = { name: loggedUser.displayName, email: loggedUser.email, role: userInfo.role, status: 'unverified' }
 
                                 fetch(`http://localhost:5000/users/${loggedUser?.email}`, {
                                     method: 'PUT',
