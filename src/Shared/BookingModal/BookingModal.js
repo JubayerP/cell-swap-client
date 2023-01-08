@@ -17,7 +17,7 @@ export default function BookingModal({ isOpen, closeModal, bookingProduct, setBo
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({...data, image: bookingProduct.image})
+            body: JSON.stringify({...data, image: bookingProduct.image, bookingId: bookingProduct._id})
         })
             .then(res => res.json())
             .then(data => {

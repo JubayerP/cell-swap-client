@@ -24,7 +24,7 @@ const CategoryItems = () => {
         <div>
             <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10 my-10'>
                 {
-                    phones.map(phone => <ItemsCard phone={phone} key={phone._id} openModal={openModal} setBookingProduct={setBookingProduct} />)
+                    phones.filter(p => !p.paid).map(phone => <ItemsCard phone={phone} key={phone._id} openModal={openModal} setBookingProduct={setBookingProduct} />)
                 }
             </div>
             {bookingProduct && <BookingModal

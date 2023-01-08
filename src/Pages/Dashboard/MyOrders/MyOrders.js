@@ -25,7 +25,7 @@ const MyOrders = () => {
                 <h2 className="mb-4 text-4xl font-semibold leading-tight text-gray-800 text-center">Sellers Does Not Exists!</h2>
                 :
                 <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
-                    <h2 className="mb-4 text-2xl font-semibold leading-tight text-gray-800">All Seller</h2>
+                    <h2 className="mb-4 text-2xl font-semibold leading-tight text-gray-800">My Orders</h2>
                     <div className="overflow-x-auto">
                         <table className="min-w-full text-xs">
                             <colgroup>
@@ -59,7 +59,7 @@ const MyOrders = () => {
                                             <p>{order.price}</p>
                                         </td>
                                         <td className="p-3">
-                                            {!order.paid && <Link to={`/dashboard/payment/${order._id}`}>
+                                            {!order.paid && <Link to={`/dashboard/payment/${order.bookingId}`}>
                                             <button className='bg-indigo-600 text-white py-1 px-2 rounded-xl hover:bg-indigo-700'>Pay</button>
                                             </Link>
                                             }

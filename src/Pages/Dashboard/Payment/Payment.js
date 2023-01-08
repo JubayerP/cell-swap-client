@@ -6,7 +6,7 @@ import Checkout from './Checkout';
 
 const Payment = () => {
     const myorders = useLoaderData();
-    const { buyerName, email, productName, price, _id } = myorders;
+    const { buyerName, email, productName, price, bookingId } = myorders;
     const stripePromise = loadStripe(process.env.REACT_APP_PK_KEY)
 
 
@@ -21,7 +21,7 @@ const Payment = () => {
                         price={price}
                         email={email}
                         buyerName={buyerName}
-                        id={_id}
+                        id={bookingId}
                     />
                 </Elements>
             </div>

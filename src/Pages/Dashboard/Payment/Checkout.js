@@ -1,5 +1,6 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import './Checkout.css'
 
 const Checkout = ({ price, email, buyerName, id }) => {
@@ -87,6 +88,7 @@ const Checkout = ({ price, email, buyerName, id }) => {
                 .then(res => res.json())
                 .then(data => {
                     console.log(data);
+                    toast.success('Payment Successfull. Wait for Shipment.')
                 })
         }
         setProcessing(false)
