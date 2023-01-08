@@ -1,18 +1,50 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthProvider';
+import useAdmin from '../../hooks/useAdmin';
+import useBuyer from '../../hooks/useBuyer';
+import useSeller from '../../hooks/useSeller';
 import MenuOptions from './MenuOptions';
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
     const { user } = useContext(AuthContext);
+    const [isSeller] = useSeller(user?.email);
+    const [isBuyer] = useBuyer(user?.email)
+    const [isAdmin] = useAdmin(user?.email);
 
     const menuItems = <>
-        {/* <Link className='md:p-4 py-2 block' to='/home'>Home</Link> */}
+        <Link className='md:p-4 py-2 block' to='/home'>Home</Link>
+        <Link className='md:p-4 py-2 block' to='/blogs'>Blogs</Link>
         {user?.uid ?
             <>
                 <Link className='md:p-4 py-2 block' to='/dashboard'>Dashboard</Link>
                 <MenuOptions />
+
+
+
+                <div className='md:hidden flex flex-col justify-center'>
+                    {isSeller && <>
+                        <Link to='/dashboard/addproduct' className=' font-semibold hover:bg-gray-100 rounded-xl'>Add A Product</Link>
+                        <Link to='/dashboard/myproducts' className=' font-semibold hover:bg-gray-100 rounded-xl'>My Products</Link>
+                        <Link to='/dashboard/mybuyers' className=' font-semibold hover:bg-gray-100 rounded-xl'>My Buyers</Link>
+                    </>
+                    }
+                    {isBuyer &&
+                        <>
+                            <Link to='/dashboard/myorders' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Orders</Link>
+                            <Link to='/dashboard/wishlist' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>My Wishlist</Link>
+                        </>
+                    }
+                    {isAdmin &&
+                        <>
+                            <Link to='/dashboard/allseller' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>All Sellers</Link>
+                            <Link to='/dashboard/allbuyer' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>All Buyers</Link>
+                            <Link to='/dashboard/myorders' className='pl-10 font-semibold hover:bg-gray-100 py-2 rounded-xl'>Reported Items</Link>
+                        </>
+                    }
+                </div>
+
             </>
             :
             <Link className='md:p-4 py-2 block' to='/login'>Login</Link>
