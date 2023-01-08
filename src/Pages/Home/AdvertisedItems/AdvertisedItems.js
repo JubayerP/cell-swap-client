@@ -48,7 +48,7 @@ const AdvertisedItems = () => {
                 <h3 className="text-4xl font-bold text-gray-800 text-center">Phones For Advertising</h3>
 
                 <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10'>
-                    {ads.map(phone => <ItemsCard phone={phone} key={phone._id} openModal={openModal} setBookingProduct={setAdsProduct} />)}
+                    {ads.filter(a => !a.paid).map(phone => <ItemsCard phone={phone} key={phone._id} openModal={openModal} setBookingProduct={setAdsProduct} />)}
                 </div>
 
                 {adsProduct &&
