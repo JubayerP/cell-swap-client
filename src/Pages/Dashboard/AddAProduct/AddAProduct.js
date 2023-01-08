@@ -26,9 +26,9 @@ const AddAProduct = () => {
             .then(res => res.json())
             .then(data => {
                 const photo = data.data.display_url;
-                const phone = { ...phoneData, image: photo, date: new Date().toISOString().slice(0, 10)}
+                const phone = { ...phoneData, image: photo, date: new Date().toISOString().slice(0, 10) }
 
-                fetch('http://localhost:5000/phones', {
+                fetch('https://cell-swap-server.vercel.app/phones', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'
@@ -86,7 +86,7 @@ const AddAProduct = () => {
                     disabled={loading}
                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
-                    {loading ? <Loader /> :'Add Product'}
+                    {loading ? <Loader /> : 'Add Product'}
                 </button>
             </form>
         </div>

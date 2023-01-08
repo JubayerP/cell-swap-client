@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
             {
                 path: '/categories/:category',
                 element: <PrivateRoute><CategoryItems /></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/phones/categories/${params.category}`)
+                loader: ({ params }) => fetch(`https://cell-swap-server.vercel.app/phones/categories/${params.category}`)
             },
             {
                 path: '/register',
@@ -87,7 +87,7 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/payment/:id',
                 element: <Payment />,
-                loader: ({params}) => fetch(`http://localhost:5000/myorders/${params.id}`)
+                loader: ({ params }) => fetch(`https://cell-swap-server.vercel.app/myorders/${params.id}`)
             },
             {
                 path: '*',

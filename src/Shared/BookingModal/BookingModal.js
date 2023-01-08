@@ -1,31 +1,31 @@
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useContext } from 'react'
-import { AuthContext } from '../../contexts/AuthProvider';
-import { MdOutlineClose } from 'react-icons/md';
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { MdOutlineClose } from 'react-icons/md';
+import { AuthContext } from '../../contexts/AuthProvider';
 
 export default function BookingModal({ isOpen, closeModal, bookingProduct, setBookingProduct }) {
     const { user } = useContext(AuthContext);
 
     const { register, handleSubmit } = useForm()
-    
+
     const handleBookingPhone = data => {
         const name = data.productName;
-        fetch('http://localhost:5000/bookings', {
+        fetch('https://cell-swap-server.vercel.app/bookings', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({...data, image: bookingProduct.image, bookingId: bookingProduct._id})
+            body: JSON.stringify({ ...data, image: bookingProduct.image, bookingId: bookingProduct._id })
         })
             .then(res => res.json())
             .then(data => {
-            if(data.acknowledged){
-                setBookingProduct(null)
-                toast.success(`${name} is booked successfully!`)
-            }
-        })
+                if (data.acknowledged) {
+                    setBookingProduct(null)
+                    toast.success(`${name} is booked successfully!`)
+                }
+            })
     }
 
 
@@ -59,16 +59,16 @@ export default function BookingModal({ isOpen, closeModal, bookingProduct, setBo
                             >
                                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                                     <div onClick={() => { closeModal(); setBookingProduct(null) }} className='border w-8 h-8 rounded-full flex justify-center items-center absolute right-2 top-2 cursor-pointer border-gray-800'>
-                                    <MdOutlineClose size={24}/>
+                                        <MdOutlineClose size={24} />
                                     </div>
                                     <form onSubmit={handleSubmit(handleBookingPhone)} className='grid grid-cols-1 gap-4 mt-5'>
-                                        <input {...register('buyerName', {required: true})} type="text" defaultValue={user?.displayName} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200'/>
-                                        <input {...register('email', {required: true})} type="email" defaultValue={user?.email} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200'/>
-                                        <input {...register('productName', {required: true})} type="text" defaultValue={bookingProduct.name} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200'/>
-                                        <input {...register('price', {required: true})} type="text" defaultValue={`$${bookingProduct.resalePrice}`} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200' />
-                                        
-                                        <input {...register('phone', {required: true})} type="text" placeholder='Phone Number' className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg' />
-                                        <input {...register('location', {required: true})} type="text" placeholder='Meeting Location' className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg'/>
+                                        <input {...register('buyerName', { required: true })} type="text" defaultValue={user?.displayName} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200' />
+                                        <input {...register('email', { required: true })} type="email" defaultValue={user?.email} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200' />
+                                        <input {...register('productName', { required: true })} type="text" defaultValue={bookingProduct.name} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200' />
+                                        <input {...register('price', { required: true })} type="text" defaultValue={`$${bookingProduct.resalePrice}`} readOnly className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg bg-slate-200' />
+
+                                        <input {...register('phone', { required: true })} type="text" placeholder='Phone Number' className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg' />
+                                        <input {...register('location', { required: true })} type="text" placeholder='Meeting Location' className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg' />
                                         <button
                                             type="submit"
                                             className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"

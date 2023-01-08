@@ -5,11 +5,11 @@ import { AuthContext } from '../../../contexts/AuthProvider';
 import Loader from '../../../Shared/Loader/Loader';
 
 const MyOrders = () => {
-    const {user} = useContext(AuthContext)
-    const {data: myorders, isLoading} = useQuery({
+    const { user } = useContext(AuthContext)
+    const { data: myorders, isLoading } = useQuery({
         queryKey: ['myorders', user?.email],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/myorders?email=${user?.email}`)
+            const res = await fetch(`https://cell-swap-server.vercel.app/myorders?email=${user?.email}`)
             const data = res.json();
             return data;
         }
@@ -60,11 +60,11 @@ const MyOrders = () => {
                                         </td>
                                         <td className="p-3">
                                             {!order.paid && <Link to={`/dashboard/payment/${order.bookingId}`}>
-                                            <button className='bg-indigo-600 text-white py-1 px-2 rounded-xl hover:bg-indigo-700'>Pay</button>
+                                                <button className='bg-indigo-600 text-white py-1 px-2 rounded-xl hover:bg-indigo-700'>Pay</button>
                                             </Link>
                                             }
                                             {order.paid &&
-                                            <button className='bg-green-600 text-white py-1 px-2 rounded-xl hover:bg-green-700'>Paid</button>
+                                                <button className='bg-green-600 text-white py-1 px-2 rounded-xl hover:bg-green-700'>Paid</button>
                                             }
                                         </td>
                                     </tr>)

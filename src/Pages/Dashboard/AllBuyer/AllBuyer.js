@@ -6,12 +6,12 @@ import useTitle from '../../../hooks/useTitle';
 import Loader from '../../../Shared/Loader/Loader';
 
 const AllBuyer = () => {
-    const {user} = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     useTitle('All Buyer')
-    const {data: allbuyers=[], isLoading, refetch} = useQuery({
+    const { data: allbuyers = [], isLoading, refetch } = useQuery({
         queryKey: ['allbuyers', user?.email],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/users/allbuyers?email=${user?.email}`, {
+            const res = await axios.get(`https://cell-swap-server.vercel.app/users/allbuyers?email=${user?.email}`, {
                 headers: {
                     authorization: `bearer ${localStorage.getItem('accessToken')}`
                 }
@@ -25,7 +25,7 @@ const AllBuyer = () => {
     const handleDeleteBuyer = id => {
         const proceed = window.confirm('Are you sure?');
         if (proceed) {
-            fetch(`http://localhost:5000/users/${id}`, {
+            fetch(`https://cell-swap-server.vercel.app/users/${id}`, {
                 method: 'DELETE',
             })
                 .then(res => res.json())
@@ -81,7 +81,7 @@ const AllBuyer = () => {
                                             <p>{buyer.role}</p>
                                         </td>
                                         <td className="p-3">
-                                            <button onClick={()=>handleDeleteBuyer(buyer._id)} className='bg-red-600 text-white py-1 px-2 rounded-xl hover:bg-red-700'>Delete</button>
+                                            <button onClick={() => handleDeleteBuyer(buyer._id)} className='bg-red-600 text-white py-1 px-2 rounded-xl hover:bg-red-700'>Delete</button>
                                         </td>
                                     </tr>)
                                 }

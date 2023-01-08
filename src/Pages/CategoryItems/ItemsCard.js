@@ -12,7 +12,7 @@ const ItemsCard = ({ phone, openModal, setBookingProduct }) => {
 
 
     const handleWishlist = phone => {
-        fetch(`http://localhost:5000/wishlist?id=${phone._id}`, {
+        fetch(`https://cell-swap-server.vercel.app/wishlist?id=${phone._id}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -42,7 +42,7 @@ const ItemsCard = ({ phone, openModal, setBookingProduct }) => {
                     <p>Added on: <span className='text-gray-800 font-semibold'>{date ? date : ''}</span></p>
                     <div className='flex items-center'>
                         <p className='inline'>Seller: <span className='text-gray-800 font-semibold mr-1'>{sellerName}</span></p>
-                        <p>{phone.status === 'verified' ? <MdVerified color='#1C9CEA'/> : ''}</p>
+                        <p>{phone.status === 'verified' ? <MdVerified color='#1C9CEA' /> : ''}</p>
                     </div>
                 </div>
 

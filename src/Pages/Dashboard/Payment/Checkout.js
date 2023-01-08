@@ -1,7 +1,7 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import './Checkout.css'
+import './Checkout.css';
 
 const Checkout = ({ price, email, buyerName, id }) => {
     const [cardError, setCardError] = useState('')
@@ -14,7 +14,7 @@ const Checkout = ({ price, email, buyerName, id }) => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/create-payment-intent', {
+        fetch('https://cell-swap-server.vercel.app/create-payment-intent', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -77,7 +77,7 @@ const Checkout = ({ price, email, buyerName, id }) => {
                 bookingId: id
             }
 
-            fetch('http://localhost:5000/payments', {
+            fetch('https://cell-swap-server.vercel.app/payments', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',

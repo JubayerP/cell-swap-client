@@ -5,13 +5,13 @@ const useBuyer = email => {
     const [buyerLoading, setBuyerLoading] = useState(true)
 
     useEffect(() => {
-        fetch(`http://localhost:5000/users/buyer?email=${email}`)
+        fetch(`https://cell-swap-server.vercel.app/users/buyer?email=${email}`)
             .then(res => res.json())
             .then(data => {
                 setIsBuyer(data.isBuyer)
                 setBuyerLoading(false)
             })
-        
+
     }, [email])
 
     return [isBuyer, buyerLoading];

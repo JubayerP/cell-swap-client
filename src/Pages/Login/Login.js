@@ -19,7 +19,7 @@ const Login = () => {
         signIn(data.email, data.password)
             .then(result => {
                 const user = result.user;
-                fetch(`http://localhost:5000/jwt?email=${user?.email}`)
+                fetch(`https://cell-swap-server.vercel.app/jwt?email=${user?.email}`)
                     .then(res => res.json())
                     .then(data => {
                         const token = data.accessToken;
@@ -42,7 +42,7 @@ const Login = () => {
 
                 const user = { name: loggedUser.displayName, email: loggedUser.email, role: 'Buyer' }
 
-                fetch(`http://localhost:5000/users/${loggedUser?.email}`, {
+                fetch(`https://cell-swap-server.vercel.app/users/${loggedUser?.email}`, {
                     method: 'PUT',
                     headers: {
                         'content-type': 'application/json'
@@ -51,7 +51,7 @@ const Login = () => {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        fetch(`http://localhost:5000/jwt?email=${loggedUser?.email}`)
+                        fetch(`https://cell-swap-server.vercel.app/jwt?email=${loggedUser?.email}`)
                             .then(res => res.json())
                             .then(data => {
                                 const token = data.accessToken;

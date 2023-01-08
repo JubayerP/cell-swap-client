@@ -11,7 +11,7 @@ const AllSeller = () => {
     const { data: allseller = [], isLoading, refetch } = useQuery({
         queryKey: ['allsellers'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/users/allsellers');
+            const res = await axios.get('https://cell-swap-server.vercel.app/users/allsellers');
             const data = await res.data;
             return data;
         }
@@ -26,7 +26,7 @@ const AllSeller = () => {
     const handleDeleteSeller = id => {
         const proceed = window.confirm('Are you sure?');
         if (proceed) {
-            fetch(`http://localhost:5000/users/${id}`, {
+            fetch(`https://cell-swap-server.vercel.app/users/${id}`, {
                 method: 'DELETE',
             })
                 .then(res => res.json())
@@ -40,7 +40,7 @@ const AllSeller = () => {
     }
 
     const handleVerify = seller => {
-        fetch(`http://localhost:5000/verifySeller?email=${seller?.email}`, {
+        fetch(`https://cell-swap-server.vercel.app/verifySeller?email=${seller?.email}`, {
             method: 'PUT'
         })
             .then(res => res.json())
@@ -48,7 +48,7 @@ const AllSeller = () => {
                 toast.success(`${seller.name} is a verified seller!`)
                 console.log(data);
                 refetch();
-        })
+            })
     }
 
 
@@ -95,7 +95,7 @@ const AllSeller = () => {
                                         <td className="p-3">
                                             {seller.status === 'verified' ?
                                                 <button className='bg-green-600 text-white py-1 px-2 rounded-xl hover:bg-green-700'>Verified</button>
-                                                : <button onClick={()=>handleVerify(seller)} className='bg-indigo-600 text-white py-1 px-2 rounded-xl hover:bg-indigo-700'>Verify</button>}
+                                                : <button onClick={() => handleVerify(seller)} className='bg-indigo-600 text-white py-1 px-2 rounded-xl hover:bg-indigo-700'>Verify</button>}
                                         </td>
                                         <td className="p-3">
                                             <button onClick={() => handleDeleteSeller(seller._id)} className='bg-red-600 text-white py-1 px-2 rounded-xl hover:bg-red-700'>Delete</button>

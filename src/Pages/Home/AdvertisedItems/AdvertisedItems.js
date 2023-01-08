@@ -31,7 +31,7 @@ const AdvertisedItems = () => {
         queryKey: ['ads', email],
         queryFn: async () => {
             if (email) {
-                const res = await axios.get(`http://localhost:5000/ads?email=${email}`, config)
+                const res = await axios.get(`https://cell-swap-server.vercel.app/ads?email=${email}`, config)
                 const data = await res.data;
                 return data;
             }
@@ -44,7 +44,7 @@ const AdvertisedItems = () => {
 
     return (
         <>
-            {ads.length === 0 ? '' :<div className='my-20 px-10'>
+            {ads.length === 0 ? '' : <div className='my-20 px-10'>
                 <h3 className="text-4xl font-bold text-gray-800 text-center">Phones For Advertising</h3>
 
                 <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10'>
