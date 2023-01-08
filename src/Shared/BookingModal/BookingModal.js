@@ -7,8 +7,6 @@ import { toast } from 'react-hot-toast';
 
 export default function BookingModal({ isOpen, closeModal, bookingProduct, setBookingProduct }) {
     const { user } = useContext(AuthContext);
-    // const { resalePrice } = bookingProduct;
-    console.log(bookingProduct);
 
     const { register, handleSubmit } = useForm()
     
@@ -19,7 +17,7 @@ export default function BookingModal({ isOpen, closeModal, bookingProduct, setBo
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({...data, image: bookingProduct.image})
         })
             .then(res => res.json())
             .then(data => {
@@ -72,7 +70,6 @@ export default function BookingModal({ isOpen, closeModal, bookingProduct, setBo
                                         <input {...register('phone', {required: true})} type="text" placeholder='Phone Number' className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg' />
                                         <input {...register('location', {required: true})} type="text" placeholder='Meeting Location' className='outline-none border-2 border-black pl-3 py-1.5 rounded-lg'/>
                                         <button
-                                            onClick={()=>setBookingProduct(null)}
                                             type="submit"
                                             className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                         >
