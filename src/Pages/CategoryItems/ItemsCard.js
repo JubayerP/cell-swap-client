@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { toast } from 'react-hot-toast';
 import { FaCartArrowDown } from 'react-icons/fa';
-import { MdOutlineReportGmailerrorred } from 'react-icons/md';
+import { MdOutlineReportGmailerrorred, MdVerified } from 'react-icons/md';
 import { TbJewishStar } from 'react-icons/tb';
 import { AuthContext } from '../../contexts/AuthProvider';
 
@@ -40,7 +40,10 @@ const ItemsCard = ({ phone, openModal, setBookingProduct }) => {
                     <p>Resale Price: <span className='text-gray-800 font-semibold'>${resalePrice}</span></p>
                     <p>Used: <span className='text-gray-800 font-semibold'>{used}</span></p>
                     <p>Added on: <span className='text-gray-800 font-semibold'>{date ? date : ''}</span></p>
-                    <p>Seller: <span className='text-gray-800 font-semibold'>{sellerName}</span></p>
+                    <div className='flex items-center'>
+                        <p className='inline'>Seller: <span className='text-gray-800 font-semibold mr-1'>{sellerName}</span></p>
+                        <p>{phone.status === 'verified' ? <MdVerified color='#1C9CEA'/> : ''}</p>
+                    </div>
                 </div>
 
                 <div className='space-y-3'>

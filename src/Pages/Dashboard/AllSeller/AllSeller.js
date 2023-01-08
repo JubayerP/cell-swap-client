@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
+import { toast } from 'react-hot-toast';
 import useTitle from '../../../hooks/useTitle';
 import Loader from '../../../Shared/Loader/Loader';
 
@@ -38,6 +39,18 @@ const AllSeller = () => {
         }
     }
 
+    const handleVerify = seller => {
+        fetch(`http://localhost:5000/verifySeller?email=${seller?.email}`, {
+            method: 'PUT'
+        })
+            .then(res => res.json())
+            .then(data => {
+                toast.success(`${seller.name} is a verified seller!`)
+                console.log(data);
+                refetch();
+        })
+    }
+
 
     return (
         <div>
@@ -60,6 +73,7 @@ const AllSeller = () => {
                                     <th className="p-3">Name</th>
                                     <th className="p-3">Email</th>
                                     <th className="p-3">Role</th>
+                                    <th className="p-3">Verify</th>
                                     <th className="p-3">Action</th>
                                 </tr>
                             </thead>
@@ -77,6 +91,11 @@ const AllSeller = () => {
                                         </td>
                                         <td className="p-3">
                                             <p>{seller.role}</p>
+                                        </td>
+                                        <td className="p-3">
+                                            {seller.status === 'verified' ?
+                                                <button className='bg-green-600 text-white py-1 px-2 rounded-xl hover:bg-green-700'>Verified</button>
+                                                : <button onClick={()=>handleVerify(seller)} className='bg-indigo-600 text-white py-1 px-2 rounded-xl hover:bg-indigo-700'>Verify</button>}
                                         </td>
                                         <td className="p-3">
                                             <button onClick={() => handleDeleteSeller(seller._id)} className='bg-red-600 text-white py-1 px-2 rounded-xl hover:bg-red-700'>Delete</button>

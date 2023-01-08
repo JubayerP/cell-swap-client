@@ -59,7 +59,7 @@ const Register = () => {
                             .then(() => {
                                 // navigate(from, {replace: true})
 
-                                const user = { name: loggedUser.displayName, email: loggedUser.email, role: userInfo.role, status: 'unverified' }
+                                const user = { name: loggedUser.displayName, email: loggedUser.email, role: userInfo.role }
 
                                 fetch(`http://localhost:5000/users/${loggedUser?.email}`, {
                                     method: 'PUT',
@@ -70,8 +70,14 @@ const Register = () => {
                                 })
                                     .then(res => res.json())
                                     .then(data => {
-                                        console.log(data);
-                                        navigate(from, { replace: true })
+                                        // navigate(from, { replace: true })
+                                        fetch(`http://localhost:5000/jwt?email=${loggedUser?.email}`)
+                                            .then(res => res.json())
+                                            .then(data => {
+                                                const token = data.accessToken;
+                                                localStorage.setItem('accessToken', token);
+                                                navigate(from, { replace: true })
+                                            })
                                     })
 
                             }).catch(err => {
@@ -106,8 +112,13 @@ const Register = () => {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data);
-                        navigate(from, { replace: true })
+                        fetch(`http://localhost:5000/jwt?email=${loggedUser?.email}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                const token = data.accessToken;
+                                localStorage.setItem('accessToken', token);
+                                navigate(from, { replace: true })
+                            })
                     })
             })
             .catch(err => {

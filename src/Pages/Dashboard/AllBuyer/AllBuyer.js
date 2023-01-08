@@ -1,15 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../../contexts/AuthProvider';
 import useTitle from '../../../hooks/useTitle';
 import Loader from '../../../Shared/Loader/Loader';
 
 const AllBuyer = () => {
+    const {user} = useContext(AuthContext)
     useTitle('All Buyer')
     const {data: allbuyers=[], isLoading, refetch} = useQuery({
-        queryKey: ['allsellers'],
+        queryKey: ['allbuyers', user?.email],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/users/allbuyers');
+            const res = await axios.get(`http://localhost:5000/users/allbuyers?email=${user?.email}`, {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('accessToken')}`
+                }
+            });
             const data = await res.data;
             return data;
         }

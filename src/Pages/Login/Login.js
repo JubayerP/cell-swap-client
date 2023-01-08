@@ -19,8 +19,13 @@ const Login = () => {
         signIn(data.email, data.password)
             .then(result => {
                 const user = result.user;
-                console.log(user);
-                navigate(from, { replace: true })
+                fetch(`http://localhost:5000/jwt?email=${user?.email}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const token = data.accessToken;
+                        localStorage.setItem('accessToken', token);
+                        navigate(from, { replace: true })
+                    })
             })
             .catch(err => {
                 console.log(err.message);
@@ -46,8 +51,13 @@ const Login = () => {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data);
-                        navigate(from, { replace: true })
+                        fetch(`http://localhost:5000/jwt?email=${loggedUser?.email}`)
+                            .then(res => res.json())
+                            .then(data => {
+                                const token = data.accessToken;
+                                localStorage.setItem('accessToken', token);
+                                navigate(from, { replace: true })
+                            })
                     })
             })
             .catch(err => {
